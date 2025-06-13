@@ -1,10 +1,12 @@
-import { Button } from "@/components/ui/button"
+import {Button} from "@/components/ui/button"
+import Gallery from "./pages/Gallery"
 
 function App() {
   return (
     <div className="flex min-h-svh flex-col items-center justify-center">
-      <Button>Click me</Button>
+      <Gallery />
     </div>
+
   )
 }
 
