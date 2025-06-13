@@ -13,7 +13,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ open, onClose, videoUrl, titl
   if (!open) return null;
   return (
     <Dialog className="z-50">
-      <DialogContent className="bg-gradient-to-b from-purple-900 to-purple-950 border-none max-w-2xl p-0">
+      <DialogContent>
         <DialogHeader>
           <PurpleTitle className="px-6 pt-6 text-center">{title}</PurpleTitle>
         </DialogHeader>

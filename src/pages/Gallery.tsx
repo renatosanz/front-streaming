@@ -34,18 +34,18 @@ const Gallery: React.FC = () => {
   const currentItems = mockData.slice(startIdx, startIdx + ITEMS_PER_PAGE);
 
   return (
-    <div className="min-h-svh bg-gradient-to-br from-purple-950 via-purple-900 to-purple-800 py-10 px-2">
-      <PurpleCard className="max-w-5xl mx-auto">
+    <div className="min-h-svh bg-gradient-to-br from-purple-900 via-purple-900 to-purple-800 py-10 px-2">
+      <PurpleCard className="w-full max-w-xxl mx-auto">
         <PurpleTitle>Galería de Fotos y Videos</PurpleTitle>
         <PurpleDivider />
-        <div className="gallery-grid">
+        <div className="gallery-grid w-full">
           {currentItems.map(item => (
-            <div className="gallery-item" key={item.id}>
+            <div className="gallery-item w-full max-w-xs flex-1 min-w-[220px]" key={item.id}>
               {item.type === 'photo' ? (
-                <img src={item.url} alt={item.title} className="rounded-lg shadow-md hover:scale-105 transition-transform duration-200 cursor-pointer border-2 border-purple-200/40" />
+                <img src={item.url} alt={item.title} className="rounded-lg shadow-md hover:scale-105 transition-transform duration-200 cursor-pointer border-2 border-purple-200/40 w-full object-cover" />
               ) : (
-                <div className="relative group cursor-pointer" onClick={() => handleVideoClick(item)}>
-                  <video width="100%" height="150" className="rounded-lg shadow-md border-2 border-purple-400/40 group-hover:ring-4 group-hover:ring-purple-400 transition-all duration-200">
+                <div className="relative group cursor-pointer w-full" onClick={() => handleVideoClick(item)}>
+                  <video width="100%" height="150" className="rounded-lg shadow-md border-2 border-purple-400/40 group-hover:ring-4 group-hover:ring-purple-400 transition-all duration-200 w-full object-cover">
                     <source src={item.url} type="video/mp4" />
                     Tu navegador no soporta el video.
                   </video>
@@ -54,11 +54,11 @@ const Gallery: React.FC = () => {
                   </div>
                 </div>
               )}
-              <div className="gallery-title text-purple-200 font-medium mt-2 text-center">{item.title}</div>
+              <div className="gallery-title text-purple-200 font-medium mt-2 text-center w-full">{item.title}</div>
             </div>
           ))}
         </div>
-        <div className="gallery-pagination mt-8 flex gap-4 items-center justify-center">
+        <div className="gallery-pagination mt-8 flex gap-4 items-center justify-center w-full">
           <PurpleButton onClick={handlePrev} disabled={page === 1}>Anterior</PurpleButton>
           <span className="text-purple-300 font-semibold">Página {page} de {totalPages}</span>
           <PurpleButton onClick={handleNext} disabled={page === totalPages}>Siguiente</PurpleButton>
