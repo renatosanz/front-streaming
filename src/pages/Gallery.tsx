@@ -126,85 +126,64 @@ const Gallery = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[var(--bg-color)] text-[var(--primary-color)] w-full">
       {/* Header */}
-      <header className="border-b border-gray-200">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex justify-between items-center mb-8">
-            <nav className="hidden md:flex space-x-8 text-sm w-full justify-center">
-              <a href="#" className="hover:text-gray-600 text-black">
-                Inicio
-              </a>
-              <a href="#" className="hover:text-gray-600 text-black">
-                Páginas
-              </a>
-              <a href="#" className="hover:text-gray-600 text-black">
-                Trabajos
-              </a>
-              <a href="#" className="hover:text-gray-600 text-black">
-                Blog
-              </a>
-              <a href="#" className="hover:text-gray-600 text-black">
-                Características
-              </a>
+      <header className="border-b border-[var(--border-color)] w-full">
+        <div className="w-full px-0 sm:px-4 py-8 mx-0">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <nav className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm w-full md:w-auto">
+              <a href="#" className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors">Inicio</a>
+              <a href="#" className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors">Páginas</a>
+              <a href="#" className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors">Trabajos</a>
+              <a href="#" className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors">Blog</a>
+              <a href="#" className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors">Características</a>
             </nav>
             <ThemeToggle onThemeChange={setTheme} />
           </div>
-
           <div className="text-center">
-            <h1
-              className="text-6xl md:text-8xl font-bold tracking-wider mb-8"
-              style={{ fontSize: "10rem", color: "var(--primary-color" }}
-            >
+            <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-wider mb-8" style={{ fontSize: "clamp(2.5rem, 10vw, 10rem)", color: "var(--primary-color)" }}>
               ARPATECA
             </h1>
           </div>
         </div>
       </header>
-
       {/* Categories */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center">
-          <div className="text-sm mb-6">
+      <div className="w-full px-0 sm:px-4 py-8 mx-0">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 w-full">
+          <div className="text-sm mb-2 sm:mb-6">
             <span className="font-medium mr-4">CATEGORÍAS</span>
           </div>
-          <div className="flex flex-wrap gap-2 mb-8">
+          <div className="flex flex-wrap gap-2 mb-4 sm:mb-8 justify-center">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => handleCategoryChange(category)}
-                className={`border text-sm font-medium transition-colors button_category ${
-                  selectedCategory === category && "button_category_select"
-                }`}
+                className={`border text-sm font-medium transition-colors button_category ${selectedCategory === category ? "button_category_select" : ""}`}
               >
                 {category}
               </button>
             ))}
           </div>
         </div>
-
         {/* Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-12 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4 gap-4 md:gap-8 mb-12 w-full">
           {currentItems.map((item) => (
             <Card
               key={item.id}
-              className="border border-gray-200 overflow-hidden group"
+              className="border border-[var(--border-color)] overflow-hidden group bg-[var(--bg-color)]"
             >
-              <div className="p-4 border-b border-gray-200">
-                <div className="flex justify-between items-center text-sm text-gray-600 mb-2">
+              <div className="p-4 border-b border-[var(--border-color)]">
+                <div className="flex flex-col sm:flex-row justify-between items-center text-sm text-[var(--primary-color)] mb-2 gap-2">
                   <span>{item.date}</span>
-                  <span className="border border-gray-300 px-2 py-1 text-xs">
-                    {item.category}
-                  </span>
+                  <span className="border border-[var(--border-color)] px-2 py-1 text-xs rounded-full">{item.category}</span>
                 </div>
               </div>
-
               <div className="relative overflow-hidden">
                 {item.type === "photo" ? (
                   <img
                     src={item.url}
                     alt={item.title}
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-48 sm:h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 ) : (
                   <div
@@ -212,18 +191,14 @@ const Gallery = () => {
                     onClick={() => handleVideoClick(item)}
                   >
                     <video
-                      className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-48 sm:h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                       poster={`https://picsum.photos/400/300?random=${item.id}`}
                     >
                       <source src={item.url} type="video/mp4" />
                     </video>
                     <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
-                        <svg
-                          className="w-6 h-6 ml-1"
-                          fill="black"
-                          viewBox="0 0 24 24"
-                        >
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full flex items-center justify-center">
+                        <svg className="w-6 h-6 ml-1" fill="black" viewBox="0 0 24 24">
                           <path d="M8 5v14l11-7z" />
                         </svg>
                       </div>
@@ -231,60 +206,46 @@ const Gallery = () => {
                   </div>
                 )}
               </div>
-
               <div className="p-4">
-                <h3 className="font-bold text-lg mb-3 leading-tight">
-                  {item.title}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  {item.description}
-                </p>
-                <button className="text-sm font-medium border-b border-black pb-1 hover:opacity-70 transition-opacity">
-                  LEER MÁS
-                </button>
+                <h3 className="font-bold text-lg mb-3 leading-tight">{item.title}</h3>
+                <p className="text-[var(--primary-color)] text-sm leading-relaxed mb-4">{item.description}</p>
+                <button className="text-sm font-medium border-b border-[var(--primary-color)] pb-1 hover:opacity-70 transition-opacity">LEER MÁS</button>
               </div>
             </Card>
           ))}
         </div>
-
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center gap-2">
+          <div className="flex flex-wrap justify-center gap-2">
             <button
               onClick={() => setPage(Math.max(1, page - 1))}
               disabled={page === 1}
-              className="px-4 py-2 border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:border-black transition-colors"
+              className="px-4 py-2 border border-[var(--border-color)] disabled:opacity-50 disabled:cursor-not-allowed hover:border-[var(--secondary-color)] transition-colors"
             >
               Anterior
             </button>
-            <span className="px-4 py-2 border border-gray-300">
-              {page} de {totalPages}
-            </span>
+            <span className="px-4 py-2 border border-[var(--border-color)]">{page} de {totalPages}</span>
             <button
               onClick={() => setPage(Math.min(totalPages, page + 1))}
               disabled={page === totalPages}
-              className="px-4 py-2 border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:border-black transition-colors"
+              className="px-4 py-2 border border-[var(--border-color)] disabled:opacity-50 disabled:cursor-not-allowed hover:border-[var(--secondary-color)] transition-colors"
             >
               Siguiente
             </button>
           </div>
         )}
       </div>
-
       {/* Footer */}
-      <footer className="border-t border-gray-200 mt-16">
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center text-sm text-gray-600 mb-8">
-            www.DescargaNuevosTemas.com
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
+      <footer className="border-t border-[var(--border-color)] mt-16 w-full">
+        <div className="w-full px-0 sm:px-4 py-8 mx-0">
+          <div className="text-center text-sm text-[var(--primary-color)] mb-8">www.DescargaNuevosTemas.com</div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm w-full">
             <div>
               <h4 className="font-medium mb-4">Gexa © Tema</h4>
             </div>
             <div>
               <h4 className="font-medium mb-4">Información</h4>
-              <div className="space-y-2 text-gray-600">
+              <div className="space-y-2 text-[var(--primary-color)]">
                 <p>hola@gexatema.com</p>
                 <p>Los Ángeles, CA 90028</p>
                 <p>Estados Unidos</p>
@@ -293,7 +254,7 @@ const Gallery = () => {
             </div>
             <div>
               <h4 className="font-medium mb-4">Conectar</h4>
-              <div className="space-y-2 text-gray-600">
+              <div className="space-y-2 text-[var(--primary-color)]">
                 <p>Facebook</p>
                 <p>Twitter</p>
                 <p>Instagram</p>
@@ -301,15 +262,13 @@ const Gallery = () => {
               </div>
             </div>
           </div>
-
-          <div className="border-t border-gray-200 mt-8 pt-8 flex justify-between text-xs text-gray-500">
+          <div className="border-t border-[var(--border-color)] mt-8 pt-8 flex flex-col sm:flex-row justify-between text-xs text-[var(--primary-color)] gap-2 text-center w-full">
             <span>© 2023, GEXA</span>
             <span>TODOS LOS DERECHOS RESERVADOS</span>
             <span>POR NEWTONTHEMES</span>
           </div>
         </div>
       </footer>
-
       {/* Video Player Modal */}
       <VideoPlayer
         open={videoOpen}
