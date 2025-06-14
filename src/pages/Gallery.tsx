@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
+import ThemeToggle from "../components/ui/ThemeToggle";
 
 // Simulación de datos de galería estilo magazine
 const mockData = Array.from({ length: 60 }, (_, i) => ({
@@ -51,7 +52,15 @@ const categories = [
 
 const ITEMS_PER_PAGE = 9;
 
-const VideoPlayer = ({ open, onClose, videoUrl, title }) => {
+// Tipado para VideoPlayer
+interface VideoPlayerProps {
+  open: boolean;
+  onClose: () => void;
+  videoUrl: string;
+  title: string;
+}
+
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ open, onClose, videoUrl, title }) => {
   if (!open) return null;
 
   return (
@@ -78,10 +87,24 @@ const VideoPlayer = ({ open, onClose, videoUrl, title }) => {
 };
 
 const Gallery = () => {
-  const [page, setPage] = useState(1);
-  const [selectedCategory, setSelectedCategory] = useState("TODOS");
-  const [videoOpen, setVideoOpen] = useState(false);
-  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [page, setPage] = useState<number>(1);
+  const [selectedCategory, setSelectedCategory] = useState<string>("TODOS");
+  const [videoOpen, setVideoOpen] = useState<boolean>(false);
+  const [selectedVideo, setSelectedVideo] = useState<{ url: string; title: string } | null>(null);
+  const [theme, setTheme] = useState<'light' | 'dark'>(
+    typeof window !== 'undefined' && document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+  );
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      root.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [theme]);
 
   const filteredData =
     selectedCategory === "TODOS"
@@ -92,12 +115,12 @@ const Gallery = () => {
   const startIdx = (page - 1) * ITEMS_PER_PAGE;
   const currentItems = filteredData.slice(startIdx, startIdx + ITEMS_PER_PAGE);
 
-  const handleCategoryChange = (category) => {
+  const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
     setPage(1);
   };
 
-  const handleVideoClick = (item) => {
+  const handleVideoClick = (item: { url: string; title: string }) => {
     setSelectedVideo(item);
     setVideoOpen(true);
   };
@@ -125,6 +148,7 @@ const Gallery = () => {
                 Características
               </a>
             </nav>
+            <ThemeToggle onThemeChange={setTheme} />
           </div>
 
           <div className="text-center">
@@ -290,8 +314,8 @@ const Gallery = () => {
       <VideoPlayer
         open={videoOpen}
         onClose={() => setVideoOpen(false)}
-        videoUrl={selectedVideo?.url}
-        title={selectedVideo?.title}
+        videoUrl={selectedVideo?.url || ''}
+        title={selectedVideo?.title || ''}
       />
     </div>
   );
