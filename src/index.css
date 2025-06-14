@@ -1,10 +1,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:wght@400&family=Merriweather:wght@400&family=Quicksand:wght@400&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Quicksand', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
@@ -33,7 +34,7 @@ body {
 }
 .category {
   border: none;
-  box-shadow: 0 4px 8px 2px var(--secondary-color);
+  box-shadow: 0 4px 8px 2px calc(var(--border-color) / 2);
   background: #fff; /* Fondo blanco para tarjetas/categorías */
   color: var(--primary-color);
 }
@@ -49,14 +50,22 @@ a:hover {
   color: var(--primary-color);
 }
 
-h1 {
+h1, .title, .gallery-title {
+  font-family: 'DM Serif Display', serif;
   font-size: 3.2em;
   line-height: 1.1;
   color: var(--primary-color);
 }
 
+h2, h3, .subtitle, .gallery-subtitle {
+  font-family: 'Merriweather', serif;
+}
+
+body, p, span, a, button, .gallery-text {
+  font-family: 'Quicksand', system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
 .button_category {
-  border-radius: 100px;
   border: 1px solid var(--secondary-color);
   color: var(--secondary-color);
   background: #fff;
@@ -96,7 +105,7 @@ footer {
 }
 
 footer h4 {
-  color: var(--secondary-color);
+  color: var(--bg-color);
 }
 footer a {
   color: var(--secondary-color);
@@ -111,8 +120,8 @@ footer a:hover {
 /* Dark mode */
 .dark {
   --primary-color: #EEEEEE;
-  --secondary-color: #1E3155;
-  --bg-color: #4C0F96;
+  --secondary-color: #4c0f96;
+  --bg-color: #1E3155;
   --border-color: #FF7CC7;
   background-color: var(--bg-color);
   color: var(--primary-color);
@@ -121,6 +130,7 @@ footer a:hover {
   background-color: var(--bg-color);
   color: var(--primary-color);
 }
+
 .dark a, .dark span {
   color: var(--primary-color);
 }
@@ -128,19 +138,21 @@ footer a:hover {
   color: var(--primary-color);
 }
 .dark button {
-  background: var(--secondary-color);
-  color: var(--primary-color);
-  border-color: var(--secondary-color);
-}
-.dark button:hover {
   background: var(--primary-color);
   color: var(--secondary-color);
+  border-color: var(--primary-color);
+  box-shadow: 0 2px 8px 0 var(--primary-color);
+}
+.dark button:hover {
+  background: var(--secondary-color);
+  color: var(--primary-color);
   border-color: var(--primary-color);
 }
 .dark .button_category, .dark .button_category_select {
   border-color: var(--primary-color);
   color: var(--primary-color);
   background: transparent;
+  box-shadow: 0 1px 6px 0 #fff;
 }
 .dark .button_category:hover, .dark .button_category_select {
   background: var(--primary-color);
@@ -148,7 +160,7 @@ footer a:hover {
 }
 .dark footer {
   background: var(--secondary-color);
-  color: var(--primary-color);
+  color: var(--border-color);
   border-top: 2px solid var(--primary-color);
 }
 .dark footer h4 {
@@ -162,4 +174,20 @@ footer a:hover {
 .dark footer a:hover {
   color: var(--primary-color);
 }
+.dark .category {
+  border: none;
+  background: #fff;
+  color: var(--bg-color);
+}
 
+.pagination {
+  color:#1E3155;
+}
+.pagination-current {
+  color: #1E3155;
+}
+.dark .pagination-current {
+  color: #fff;
+  background: var(--primary-color-color);
+  border-color: var(--primary-color);
+}

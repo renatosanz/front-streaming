@@ -175,7 +175,7 @@ const Gallery = () => {
               <div className="p-4">
                 <div className="flex flex-col sm:flex-row justify-between items-center text-sm text-[var(--primary-color)] mb-2 gap-2">
                   <span>{item.date}</span>
-                  <span className="border border-[var(--border-color)] px-2 py-1 text-xs rounded-full category">{item.category}</span>
+                  <span className="border border-[var(--border-color)] px-2 py-1 text-xs  category">{item.category}</span>
                 </div>
               </div>
               <div className="relative overflow-hidden">
@@ -197,7 +197,7 @@ const Gallery = () => {
                       <source src={item.url} type="video/mp4" />
                     </video>
                     <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full flex items-center justify-center">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white  flex items-center justify-center">
                         <svg className="w-6 h-6 ml-1" fill="black" viewBox="0 0 24 24">
                           <path d="M8 5v14l11-7z" />
                         </svg>
@@ -216,19 +216,21 @@ const Gallery = () => {
         </div>
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex flex-wrap justify-center gap-2">
+          <div className="pagination flex flex-wrap justify-center gap-2 mt-8">
             <button
               onClick={() => setPage(Math.max(1, page - 1))}
               disabled={page === 1}
-              className="px-4 py-2 border border-[var(--border-color)] disabled:opacity-50 disabled:cursor-not-allowed hover:border-[var(--secondary-color)] transition-colors"
+              className="px-4 py-2 font-medium border border-[var(--border-color)] bg-white text-[var(--primary-color)] shadow-sm disabled:opacity-50 disabled:cursor-not-allowed hover:border-[var(--secondary-color)] hover:bg-[var(--secondary-color)] hover:text-white transition-colors"
             >
               Anterior
             </button>
-            <span className="px-4 py-2 border border-[var(--border-color)]">{page} de {totalPages}</span>
+            <span className="px-4 py-2 font-medium border border-[var(--secondary-color)] bg-white shadow-sm select-none pagination-current">
+              {page} de {totalPages}
+            </span>
             <button
               onClick={() => setPage(Math.min(totalPages, page + 1))}
               disabled={page === totalPages}
-              className="px-4 py-2 border border-[var(--border-color)] disabled:opacity-50 disabled:cursor-not-allowed hover:border-[var(--secondary-color)] transition-colors"
+              className="px-4 py-2 font-medium border border-[var(--border-color)] bg-white text-[var(--primary-color)] shadow-sm disabled:opacity-50 disabled:cursor-not-allowed hover:border-[var(--secondary-color)] hover:bg-[var(--secondary-color)] hover:text-white transition-colors"
             >
               Siguiente
             </button>
