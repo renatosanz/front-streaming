@@ -48,9 +48,9 @@ const getfilms = () => {
           type: "video",
           title: film.titulo_original,
           url: film.video_titulo,
-          category:film.genero,
-          date:film.ano_estreno,
-          description:film.sinopsis,
+          category: film.genero,
+          date: film.ano_estreno,
+          description: film.sinopsis,
           poster_url: film.poster_name,
         };
       });
@@ -118,12 +118,14 @@ const Gallery = () => {
       ? "dark"
       : "light"
   );
-  const [currentItems, setCurrentItems] = useState();
+  const [allData, setAllData] = useState<any[]>([]);
+  const [currentItems, setCurrentItems] = useState([]);
 
   useEffect(() => {
-    getfilms().then((data) =>
-      setCurrentItems(data.slice(startIdx, startIdx + ITEMS_PER_PAGE))
-    );
+    getfilms().then((data) => {
+      setAllData(data); // Guardamos todos los datos
+      setCurrentItems(data.slice(startIdx, startIdx + ITEMS_PER_PAGE));
+    });
     const root = document.documentElement;
     if (theme === "dark") {
       root.classList.add("dark");
@@ -136,8 +138,15 @@ const Gallery = () => {
 
   const filteredData =
     selectedCategory === "TODOS"
-      ? mockData
-      : mockData.filter((item) => item.category === selectedCategory);
+      ? allData
+      : allData.filter((item: any) =>
+          item.category.toLowerCase().includes(selectedCategory.toLowerCase())
+        );
+
+  useEffect(() => {
+    const startIdx = (page - 1) * ITEMS_PER_PAGE;
+    setCurrentItems(filteredData.slice(startIdx, startIdx + ITEMS_PER_PAGE));
+  }, [page, filteredData]);
 
   const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
   const startIdx = (page - 1) * ITEMS_PER_PAGE;
@@ -224,7 +233,7 @@ const Gallery = () => {
         </div>
         {/* Gallery Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4 max-w-full gap-4 md:gap-8 mb-12 w-full">
-          {currentItems?.map((item:any) => (
+          {currentItems?.map((item: any) => (
             <Card
               key={item.id}
               className="overflow-hidden group bg-[var(--bg-color)]"
