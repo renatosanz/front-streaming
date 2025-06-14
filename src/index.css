@@ -100,8 +100,8 @@ footer {
   background: var(--border-color);
   color: #fff;
   border-top: 2px solid #4C0F96;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   width: 100%;
   font-family: 'Quicksand', system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
@@ -129,7 +129,7 @@ footer .text-footer, footer p, footer span {
   word-break: break-word;
 }
 footer .space-y-2 > * + * {
-  margin-top: 0.5rem;
+  margin-top: 0.2rem;
 }
 footer .grid {
   width: 100%;
