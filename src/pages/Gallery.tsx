@@ -253,9 +253,6 @@ const Gallery = () => {
                 <p className="text-[var(--primary-color)] text-sm leading-relaxed mb-4">
                   {item.description}
                 </p>
-                <button className="text-sm font-medium border-b border-[var(--primary-color)] pb-1 hover:opacity-70 transition-opacity">
-                  LEER MÁS
-                </button>
               </div>
             </Card>
           ))}
