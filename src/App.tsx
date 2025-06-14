@@ -1,4 +1,3 @@
-import {Button} from "@/components/ui/button"
 import Gallery from "./pages/Gallery"
 
 function App() {
