@@ -73,7 +73,7 @@ body {
   background-color: var(--bg-color);
 }
 
-a {
+a, span {
   color: var(--primary-color);
 }
 
@@ -86,6 +86,7 @@ h1 {
   border-radius: 100px;
   border: 1px solid var(--secondary-color);
   color: var(--secondary-color);
+  padding: 5px 10px;
   /* color: var(--secondary-color); */
 }
 

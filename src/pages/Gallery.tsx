@@ -140,21 +140,23 @@ const Gallery = () => {
 
       {/* Categories */}
       <div className="container mx-auto px-4 py-8">
-        <div className="text-sm mb-6">
-          <span className="font-medium mr-4">CATEGORÍAS</span>
-        </div>
-        <div className="flex flex-wrap gap-2 mb-8">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => handleCategoryChange(category)}
-              className={`px-4 py-1 border text-sm font-medium transition-colors button_category ${
-                selectedCategory === category && "button_category_select"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
+        <div className="flex justify-between items-center">
+          <div className="text-sm mb-6">
+            <span className="font-medium mr-4">CATEGORÍAS</span>
+          </div>
+          <div className="flex flex-wrap gap-2 mb-8">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => handleCategoryChange(category)}
+                className={`border text-sm font-medium transition-colors button_category ${
+                  selectedCategory === category && "button_category_select"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Gallery Grid */}
