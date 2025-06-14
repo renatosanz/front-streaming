@@ -7,63 +7,19 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  
-  --primary-color: #4C0F96;
-  --secondary-color: #EF4598;
-  
-  --bg-color: #FF7CC7;
-  
-  --border-color: #311A73;
+
+  /* Centralized palette */
+  --primary-color: #1E3155; /* Texto principal: azul oscuro */
+  --secondary-color: #4C0F96; /* Acentos: púrpura */
+  --bg-color: #EEEEEE; /* Fondo blanco suave */
+  --border-color: #311A73; /* Bordes: púrpura oscuro */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-a {
-  font-weight: 500;
-  color: var(--primary-color);
-  text-decoration: inherit;
-}
-a:hover {
-  color: var(--primary-color);
 }
 
 body {
@@ -72,110 +28,138 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--bg-color);
-  color: #1E3155;
+  background-color: var(--bg-color); /* Fondo blanco suave */
+  color: var(--primary-color); /* Texto azul oscuro */
+}
+.category {
+  border: none;
+  box-shadow: 0 4px 8px 2px var(--secondary-color);
+  background: #fff; /* Fondo blanco para tarjetas/categorías */
+  color: var(--primary-color);
+}
+a, span {
+  color: var(--primary-color-color);
 }
 
-a, span {
+a {
+  font-weight: 500;
+  text-decoration: inherit;
+}
+a:hover {
   color: var(--primary-color);
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
-  color: #4C0F96;
+  color: var(--primary-color);
 }
 
 .button_category {
   border-radius: 100px;
   border: 1px solid var(--secondary-color);
   color: var(--secondary-color);
+  background: #fff;
   padding: 5px 10px;
 }
 .button_category:hover {
   background-color: var(--secondary-color);
-  color: #FF7CC7;
+  color: #fff;
 }
 .button_category_select {
   background-color: var(--secondary-color);
-  color: #FF7CC7;
+  color: #fff;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid var(--primary-color);
+  border: none;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
   transition: border-color 0.25s, background 0.25s, color 0.25s;
-  background: #FF7CC7;
-  color: #1E3155;
+  background: var(--primary-color);
+  color: #fff;
+  box-shadow: 0 2px 8px 0 var(--border-color);
 }
 button:hover {
-  background: #EF4598;
-  color: #FF7CC7;
-  border-color: #EF4598;
+  background: var(--secondary-color);
+  color: #fff;
+  border-color: var(--secondary-color);
 }
 
 footer {
-  background: #311A73;
-  color: #FF7CC7;
+  background: var(--border-color);
+  color: #fff;
   border-top: 2px solid #4C0F96;
 }
 
-.text-gray-600, .text-gray-500, .text-black {
-  color: #1E3155 !important;
+footer h4 {
+  color: var(--secondary-color);
 }
-.border-gray-200, .border-gray-300 {
-  border-color: #4C0F96 !important;
+footer a {
+  color: var(--secondary-color);
+  text-decoration: underline;
+  font-weight: 600;
+  transition: color 0.2s;
 }
-.bg-white {
-  background: #FF7CC7 !important;
+footer a:hover {
+  color: var(--primary-color);
 }
 
 /* Dark mode */
 .dark {
-  --primary-color: #FF7CC7;
-  --secondary-color: #4C0F96;
-  --bg-color: #1E3155;
-  --border-color: #311A73;
+  --primary-color: #EEEEEE;
+  --secondary-color: #1E3155;
+  --bg-color: #4C0F96;
+  --border-color: #FF7CC7;
   background-color: var(--bg-color);
-  color: #FF7CC7;
+  color: var(--primary-color);
 }
 .dark body {
   background-color: var(--bg-color);
-  color: #FF7CC7;
+  color: var(--primary-color);
 }
 .dark a, .dark span {
-  color: #FF7CC7;
+  color: var(--primary-color);
 }
 .dark h1 {
-  color: #EF4598;
+  color: var(--primary-color);
 }
 .dark button {
-  background: #4C0F96;
-  color: #FF7CC7;
-  border-color: #EF4598;
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  border-color: var(--secondary-color);
 }
 .dark button:hover {
-  background: #EF4598;
-  color: #FF7CC7;
-  border-color: #EF4598;
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  border-color: var(--primary-color);
 }
 .dark .button_category, .dark .button_category_select {
-  border-color: #EF4598;
-  color: #EF4598;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
   background: transparent;
 }
 .dark .button_category:hover, .dark .button_category_select {
-  background: #EF4598;
-  color: #FF7CC7;
+  background: var(--primary-color);
+  color: var(--secondary-color);
 }
 .dark footer {
-  background: #1E3155;
-  color: #FF7CC7;
-  border-top: 2px solid #EF4598;
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  border-top: 2px solid var(--primary-color);
+}
+.dark footer h4 {
+  color: var(--primary-color);
+}
+.dark footer a {
+  color: var(--secondary-color);
+  text-decoration: underline;
+  font-weight: 600;
+}
+.dark footer a:hover {
+  color: var(--primary-color);
 }
 

@@ -128,7 +128,7 @@ const Gallery = () => {
   return (
     <div className="min-h-screen bg-[var(--bg-color)] text-[var(--primary-color)] w-full">
       {/* Header */}
-      <header className="border-b border-[var(--border-color)] w-full">
+      <header className="w-full">
         <div className="w-full px-0 sm:px-4 py-8 mx-0">
           <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
             <nav className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm w-full md:w-auto">
@@ -141,7 +141,7 @@ const Gallery = () => {
             <ThemeToggle onThemeChange={setTheme} />
           </div>
           <div className="text-center">
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-wider mb-8" style={{ fontSize: "clamp(2.5rem, 10vw, 10rem)", color: "var(--primary-color)" }}>
+            <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-wider mb-8 text-[var(--primary-color)]" style={{ fontSize: "clamp(2.5rem, 10vw, 10rem)" }}>
               ARPATECA
             </h1>
           </div>
@@ -158,7 +158,7 @@ const Gallery = () => {
               <button
                 key={category}
                 onClick={() => handleCategoryChange(category)}
-                className={`border text-sm font-medium transition-colors button_category ${selectedCategory === category ? "button_category_select" : ""}`}
+                className={` text-sm font-medium transition-colors button_category ${selectedCategory === category ? "button_category_select" : ""}`}
               >
                 {category}
               </button>
@@ -170,12 +170,12 @@ const Gallery = () => {
           {currentItems.map((item) => (
             <Card
               key={item.id}
-              className="border border-[var(--border-color)] overflow-hidden group bg-[var(--bg-color)]"
+              className="overflow-hidden group bg-[var(--bg-color)]"
             >
-              <div className="p-4 border-b border-[var(--border-color)]">
+              <div className="p-4">
                 <div className="flex flex-col sm:flex-row justify-between items-center text-sm text-[var(--primary-color)] mb-2 gap-2">
                   <span>{item.date}</span>
-                  <span className="border border-[var(--border-color)] px-2 py-1 text-xs rounded-full">{item.category}</span>
+                  <span className="border border-[var(--border-color)] px-2 py-1 text-xs rounded-full category">{item.category}</span>
                 </div>
               </div>
               <div className="relative overflow-hidden">
@@ -236,16 +236,16 @@ const Gallery = () => {
         )}
       </div>
       {/* Footer */}
-      <footer className="border-t border-[var(--border-color)] mt-16 w-full">
+      <footer className="mt-16 w-full">
         <div className="w-full px-0 sm:px-4 py-8 mx-0">
-          <div className="text-center text-sm text-[var(--primary-color)] mb-8">www.DescargaNuevosTemas.com</div>
+          <div className="text-center text-sm mb-8 text-footer">www.DescargaNuevosTemas.com</div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm w-full">
             <div>
               <h4 className="font-medium mb-4">Gexa © Tema</h4>
             </div>
             <div>
               <h4 className="font-medium mb-4">Información</h4>
-              <div className="space-y-2 text-[var(--primary-color)]">
+              <div className="space-y-2 text-footer">
                 <p>hola@gexatema.com</p>
                 <p>Los Ángeles, CA 90028</p>
                 <p>Estados Unidos</p>
@@ -254,7 +254,7 @@ const Gallery = () => {
             </div>
             <div>
               <h4 className="font-medium mb-4">Conectar</h4>
-              <div className="space-y-2 text-[var(--primary-color)]">
+              <div className="space-y-2 text-footer">
                 <p>Facebook</p>
                 <p>Twitter</p>
                 <p>Instagram</p>
@@ -262,7 +262,7 @@ const Gallery = () => {
               </div>
             </div>
           </div>
-          <div className="border-t border-[var(--border-color)] mt-8 pt-8 flex flex-col sm:flex-row justify-between text-xs text-[var(--primary-color)] gap-2 text-center w-full">
+          <div className="mt-8 pt-8 flex flex-col sm:flex-row justify-between text-xs gap-2 text-center w-full text-footer">
             <span>© 2023, GEXA</span>
             <span>TODOS LOS DERECHOS RESERVADOS</span>
             <span>POR NEWTONTHEMES</span>
