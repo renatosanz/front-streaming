@@ -37,18 +37,28 @@ const mockData = Array.from({ length: 60 }, (_, i) => ({
   date: "4 de Enero, 2023",
 }));
 
-const categories = [
-  "TODOS",
-  "ARTE",
-  "ABSTRACTO",
-  "ILUSTRACION",
-  "MEMORIA",
-  "BIOGRAFIA",
-  "SOMBRA",
-  "LINEAS",
-  "ARTESANIA",
-  "DISEÑO",
-];
+const getfilms = () => {
+  return fetch("http://172.30.174.32:3000/getMetadatos")
+    .then((data) => data.json())
+    .then((films) => {
+      console.log(films);
+      const new_data = films.map((film: any) => {
+        return {
+          id: 1,
+          type: "video",
+          title: film.titulo_original,
+          url: film.video_titulo,
+          category:film.genero,
+          date:film.ano_estreno,
+          description:film.sinopsis,
+          poster_url: film.poster_name,
+        };
+      });
+      return new_data;
+    });
+};
+
+const categories = ["drama", "cine ensayo documental", "documental", "TODOS"];
 
 const ITEMS_PER_PAGE = 9;
 
@@ -60,7 +70,12 @@ interface VideoPlayerProps {
   title: string;
 }
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ open, onClose, videoUrl, title }) => {
+const VideoPlayer: React.FC<VideoPlayerProps> = ({
+  open,
+  onClose,
+  videoUrl,
+  title,
+}) => {
   if (!open) return null;
 
   return (
@@ -79,7 +94,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ open, onClose, videoUrl, titl
           </button>
         </div>
         <video controls className="w-full">
-          <source src={videoUrl} type="video/mp4" />
+          <source
+            src={`http://172.30.174.32:3000/api/videos/stream/${videoUrl}`}
+            type="video/mp4"
+          />
         </video>
       </div>
     </div>
@@ -90,19 +108,29 @@ const Gallery = () => {
   const [page, setPage] = useState<number>(1);
   const [selectedCategory, setSelectedCategory] = useState<string>("TODOS");
   const [videoOpen, setVideoOpen] = useState<boolean>(false);
-  const [selectedVideo, setSelectedVideo] = useState<{ url: string; title: string } | null>(null);
-  const [theme, setTheme] = useState<'light' | 'dark'>(
-    typeof window !== 'undefined' && document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+  const [selectedVideo, setSelectedVideo] = useState<{
+    url: string;
+    title: string;
+  } | null>(null);
+  const [theme, setTheme] = useState<"light" | "dark">(
+    typeof window !== "undefined" &&
+      document.documentElement.classList.contains("dark")
+      ? "dark"
+      : "light"
   );
+  const [currentItems, setCurrentItems] = useState();
 
   useEffect(() => {
+    getfilms().then((data) =>
+      setCurrentItems(data.slice(startIdx, startIdx + ITEMS_PER_PAGE))
+    );
     const root = document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
+    if (theme === "dark") {
+      root.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     } else {
-      root.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
+      root.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
   }, [theme]);
 
@@ -113,7 +141,6 @@ const Gallery = () => {
 
   const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
   const startIdx = (page - 1) * ITEMS_PER_PAGE;
-  const currentItems = filteredData.slice(startIdx, startIdx + ITEMS_PER_PAGE);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
@@ -132,16 +159,44 @@ const Gallery = () => {
         <div className="w-full px-0 sm:px-4 py-8 mx-0">
           <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
             <nav className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm w-full md:w-auto">
-              <a href="#" className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors">Inicio</a>
-              <a href="#" className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors">Páginas</a>
-              <a href="#" className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors">Trabajos</a>
-              <a href="#" className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors">Blog</a>
-              <a href="#" className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors">Características</a>
+              <a
+                href="#"
+                className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors"
+              >
+                Inicio
+              </a>
+              <a
+                href="#"
+                className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors"
+              >
+                Páginas
+              </a>
+              <a
+                href="#"
+                className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors"
+              >
+                Trabajos
+              </a>
+              <a
+                href="#"
+                className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors"
+              >
+                Blog
+              </a>
+              <a
+                href="#"
+                className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors"
+              >
+                Características
+              </a>
             </nav>
             <ThemeToggle onThemeChange={setTheme} />
           </div>
           <div className="text-center">
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-wider mb-8 text-[var(--primary-color)]" style={{ fontSize: "clamp(2.5rem, 10vw, 10rem)" }}>
+            <h1
+              className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-wider mb-8 text-[var(--primary-color)]"
+              style={{ fontSize: "clamp(2.5rem, 10vw, 10rem)" }}
+            >
               ARPATECA
             </h1>
           </div>
@@ -158,7 +213,9 @@ const Gallery = () => {
               <button
                 key={category}
                 onClick={() => handleCategoryChange(category)}
-                className={` text-sm font-medium transition-colors button_category ${selectedCategory === category ? "button_category_select" : ""}`}
+                className={` text-sm font-medium transition-colors button_category ${
+                  selectedCategory === category ? "button_category_select" : ""
+                }`}
               >
                 {category}
               </button>
@@ -166,8 +223,8 @@ const Gallery = () => {
           </div>
         </div>
         {/* Gallery Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4 gap-4 md:gap-8 mb-12 w-full">
-          {currentItems.map((item) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4 max-w-full gap-4 md:gap-8 mb-12 w-full">
+          {currentItems?.map((item:any) => (
             <Card
               key={item.id}
               className="overflow-hidden group bg-[var(--bg-color)]"
@@ -175,7 +232,9 @@ const Gallery = () => {
               <div className="p-4">
                 <div className="flex flex-col sm:flex-row justify-between items-center text-sm text-[var(--primary-color)] mb-2 gap-2">
                   <span>{item.date}</span>
-                  <span className="border border-[var(--border-color)] px-2 py-1 text-xs  category">{item.category}</span>
+                  <span className="border border-[var(--border-color)] px-2 py-1 text-xs  category">
+                    {item.category}
+                  </span>
                 </div>
               </div>
               <div className="relative overflow-hidden">
@@ -192,13 +251,17 @@ const Gallery = () => {
                   >
                     <video
                       className="w-full h-48 sm:h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                      poster={`https://picsum.photos/400/300?random=${item.id}`}
+                      poster={`http://172.30.174.32:3000/api/images/serve/${item.poster_url}`}
                     >
                       <source src={item.url} type="video/mp4" />
                     </video>
                     <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
                       <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white  flex items-center justify-center">
-                        <svg className="w-6 h-6 ml-1" fill="black" viewBox="0 0 24 24">
+                        <svg
+                          className="w-6 h-6 ml-1"
+                          fill="black"
+                          viewBox="0 0 24 24"
+                        >
                           <path d="M8 5v14l11-7z" />
                         </svg>
                       </div>
@@ -207,9 +270,15 @@ const Gallery = () => {
                 )}
               </div>
               <div className="p-4">
-                <h3 className="font-bold text-lg mb-3 leading-tight">{item.title}</h3>
-                <p className="text-[var(--primary-color)] text-sm leading-relaxed mb-4">{item.description}</p>
-                <button className="text-sm font-medium border-b border-[var(--primary-color)] pb-1 hover:opacity-70 transition-opacity">LEER MÁS</button>
+                <h3 className="font-bold text-lg mb-3 leading-tight">
+                  {item.title}
+                </h3>
+                <p className="text-[var(--primary-color)] text-sm leading-relaxed mb-4">
+                  {item.description}
+                </p>
+                <button className="text-sm font-medium border-b border-[var(--primary-color)] pb-1 hover:opacity-70 transition-opacity">
+                  LEER MÁS
+                </button>
               </div>
             </Card>
           ))}
@@ -240,7 +309,9 @@ const Gallery = () => {
       {/* Footer */}
       <footer className="mt-16 w-full">
         <div className="w-full px-0 sm:px-4 py-8 mx-0">
-          <div className="text-center text-sm mb-8 text-footer">www.DescargaNuevosTemas.com</div>
+          <div className="text-center text-sm mb-8 text-footer">
+            www.DescargaNuevosTemas.com
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm w-full">
             <div>
               <h4 className="font-medium mb-4">Gexa © Tema</h4>
@@ -275,8 +346,8 @@ const Gallery = () => {
       <VideoPlayer
         open={videoOpen}
         onClose={() => setVideoOpen(false)}
-        videoUrl={selectedVideo?.url || ''}
-        title={selectedVideo?.title || ''}
+        videoUrl={selectedVideo?.url || ""}
+        title={selectedVideo?.title || ""}
       />
     </div>
   );
