@@ -48,9 +48,9 @@ const getfilms = () => {
           type: "video",
           title: film.titulo_original,
           url: film.video_titulo,
-          category:film.genero,
-          date:film.ano_estreno,
-          description:film.sinopsis,
+          category: film.genero,
+          date: film.ano_estreno,
+          description: film.sinopsis,
           poster_url: film.poster_name,
         };
       });
@@ -118,12 +118,14 @@ const Gallery = () => {
       ? "dark"
       : "light"
   );
-  const [currentItems, setCurrentItems] = useState();
+  const [allData, setAllData] = useState<any[]>([]);
+  const [currentItems, setCurrentItems] = useState([]);
 
   useEffect(() => {
-    getfilms().then((data) =>
-      setCurrentItems(data.slice(startIdx, startIdx + ITEMS_PER_PAGE))
-    );
+    getfilms().then((data) => {
+      setAllData(data); // Guardamos todos los datos
+      setCurrentItems(data.slice(startIdx, startIdx + ITEMS_PER_PAGE));
+    });
     const root = document.documentElement;
     if (theme === "dark") {
       root.classList.add("dark");
@@ -136,8 +138,15 @@ const Gallery = () => {
 
   const filteredData =
     selectedCategory === "TODOS"
-      ? mockData
-      : mockData.filter((item) => item.category === selectedCategory);
+      ? allData
+      : allData.filter((item: any) =>
+          item.category.toLowerCase().includes(selectedCategory.toLowerCase())
+        );
+
+  useEffect(() => {
+    const startIdx = (page - 1) * ITEMS_PER_PAGE;
+    setCurrentItems(filteredData.slice(startIdx, startIdx + ITEMS_PER_PAGE));
+  }, [page, filteredData]);
 
   const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
   const startIdx = (page - 1) * ITEMS_PER_PAGE;
@@ -157,12 +166,44 @@ const Gallery = () => {
       {/* Header */}
       <header className="w-full">
         <div className="w-full px-0 sm:px-4 py-8 mx-0">
-          <div className="flex flex-col md:flex-row justify-end items-center mb-8 gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <nav className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm w-full md:w-auto">
+              <a
+                href="#"
+                className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors"
+              >
+                Inicio
+              </a>
+              <a
+                href="#"
+                className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors"
+              >
+                Páginas
+              </a>
+              <a
+                href="#"
+                className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors"
+              >
+                Trabajos
+              </a>
+              <a
+                href="#"
+                className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors"
+              >
+                Blog
+              </a>
+              <a
+                href="#"
+                className="hover:text-[var(--secondary-color)] text-[var(--primary-color)] transition-colors"
+              >
+                Características
+              </a>
+            </nav>
             <ThemeToggle onThemeChange={setTheme} />
           </div>
           <div className="text-center">
             <h1
-              className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-wider mb-8 text-[var(--primary-color)] justify-center"
+              className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-wider mb-8 text-[var(--primary-color)]"
               style={{ fontSize: "clamp(2.5rem, 10vw, 10rem)" }}
             >
               ARPATECA
@@ -192,7 +233,7 @@ const Gallery = () => {
         </div>
         {/* Gallery Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4 max-w-full gap-4 md:gap-8 mb-12 w-full">
-          {currentItems?.map((item:any) => (
+          {currentItems?.map((item: any) => (
             <Card
               key={item.id}
               className="overflow-hidden group bg-[var(--bg-color)]"
@@ -257,17 +298,17 @@ const Gallery = () => {
             <button
               onClick={() => setPage(Math.max(1, page - 1))}
               disabled={page === 1}
-              className="px-4 py-2 font-medium border border-[var(--border-color)] bg-white text-[var(--primary-color)] disabled:opacity-50 disabled:cursor-not-allowed hover:border-[var(--secondary-color)] hover:bg-[var(--secondary-color)] hover:text-white transition-colors"
+              className="px-4 py-2 font-medium border border-[var(--border-color)] bg-white text-[var(--primary-color)] shadow-sm disabled:opacity-50 disabled:cursor-not-allowed hover:border-[var(--secondary-color)] hover:bg-[var(--secondary-color)] hover:text-white transition-colors"
             >
               Anterior
             </button>
-            <span className="px-4 py-2 font-medium border border-[var(--secondary-color)] bg-white select-none pagination-current">
+            <span className="px-4 py-2 font-medium border border-[var(--secondary-color)] bg-white shadow-sm select-none pagination-current">
               {page} de {totalPages}
             </span>
             <button
               onClick={() => setPage(Math.min(totalPages, page + 1))}
               disabled={page === totalPages}
-              className="px-4 py-2 font-medium border border-[var(--border-color)] bg-white text-[var(--primary-color)] disabled:opacity-50 disabled:cursor-not-allowed hover:border-[var(--secondary-color)] hover:bg-[var(--secondary-color)] hover:text-white transition-colors"
+              className="px-4 py-2 font-medium border border-[var(--border-color)] bg-white text-[var(--primary-color)] shadow-sm disabled:opacity-50 disabled:cursor-not-allowed hover:border-[var(--secondary-color)] hover:bg-[var(--secondary-color)] hover:text-white transition-colors"
             >
               Siguiente
             </button>
@@ -278,30 +319,35 @@ const Gallery = () => {
       <footer className="mt-16 w-full">
         <div className="w-full px-0 sm:px-4 py-8 mx-0">
           <div className="text-center text-sm mb-8 text-footer">
-              {/* Puedes agregar aquí un texto o dejarlo vacío */}
+            www.DescargaNuevosTemas.com
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm w-full">
             <div>
-              <h4 className="font-medium mb-4">BUAP ®</h4>
+              <h4 className="font-medium mb-4">Gexa © Tema</h4>
             </div>
             <div>
               <h4 className="font-medium mb-4">Información</h4>
-              <ul className="space-y-2 text-footer list-none p-0 m-0">
-                <li><a href="https://admin.arpa.buap.mx/directorio-arpa/">Directorio</a></li>
-                <li>4 Sur 104 Centro Histórico C.P. 72000</li>
-                <li>Estado de Puebla</li>
-                <li><a href="tel:+52 (222) 229 55 00">+52 (222) 229 55 00</a></li>
-              </ul>
+              <div className="space-y-2 text-footer">
+                <p>hola@gexatema.com</p>
+                <p>Los Ángeles, CA 90028</p>
+                <p>Estados Unidos</p>
+                <p>645-789-2653</p>
+              </div>
             </div>
             <div>
               <h4 className="font-medium mb-4">Conectar</h4>
-              <ul className="space-y-2 text-footer list-none p-0 m-0">
-                <li><a href="http://www.transparencia.buap.mx/" target="_blank" rel="noopener noreferrer">Transparencia y Acceso a la Información</a></li>
-                <li><a href="https://https://consultapublicamx.inai.org.mx/vut-web/?idSujetoObigadoParametro=4479&idEntidadParametro=21&idSectorParametro=24.com" target="_blank" rel="noopener noreferrer">Obligaciones de Transparencia</a></li>
-                <li><a href="http://www.pdi.buap.mx/" target="_blank" rel="noopener noreferrer">PDI 2017</a></li>
-                <li><a href="http://www.buap.mx/privacidad" target="_blank" rel="noopener noreferrer">Aviso de privacidad</a></li>
-              </ul>
+              <div className="space-y-2 text-footer">
+                <p>Facebook</p>
+                <p>Twitter</p>
+                <p>Instagram</p>
+                <p>YouTube</p>
+              </div>
             </div>
+          </div>
+          <div className="mt-8 pt-8 flex flex-col sm:flex-row justify-between text-xs gap-2 text-center w-full text-footer">
+            <span>© 2023, GEXA</span>
+            <span>TODOS LOS DERECHOS RESERVADOS</span>
+            <span>POR NEWTONTHEMES</span>
           </div>
         </div>
       </footer>
